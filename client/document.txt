@@ -1,0 +1,39 @@
+■API設計(REST)
+  auth
+    method: POST
+    url: /api/users/signup
+    body: {
+      email, password
+    }
+    
+    method: POST
+    url: /api/users/signin
+    body: {
+      email, password
+    }
+
+    method: POST
+    url: /api/users/signout
+    body: {}
+
+    method: POST
+    url: /api/users/currentuser
+    ※どういう風に利用するかまだ決めれてない(一旦後回し)
+
+
+■ページング
+  welcomeページ
+    /
+
+  signupページ
+    /auth/signup
+
+  signinページ
+    /auth/signin
+
+■画面部品
+  header
+
+
+■暇だったら
+  1. 画面側での認証について(UX向上のため)
