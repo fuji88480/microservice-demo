@@ -24,7 +24,7 @@ export default function Signin() {
             />
           </div>
 
-          <div>
+          <div className="mb-10">
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
@@ -33,7 +33,7 @@ export default function Signin() {
             />
           </div>
 
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full bg-gray-100">
             ログイン
           </Button>
 
