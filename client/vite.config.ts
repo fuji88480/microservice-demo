@@ -13,7 +13,7 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/user': {
+      '/users': {
         target: 'http://localhost:3001',
         changeOrigin: true,
       },

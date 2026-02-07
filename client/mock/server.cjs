@@ -8,7 +8,7 @@ const middlewares = jsonServer.defaults();
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-server.post('/user/signup', async (req, res) => {
+server.post('/users/signup', async (req, res) => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const { email, password } = req.body || {};
 

@@ -11,7 +11,7 @@ export type RegisterResponse = {
 };
 
 export const register = async (data: RegisterRequest) => {
-  const response = await apiFetch<RegisterResponse>('/user/signup', {
+  const response = await apiFetch<RegisterResponse>('/users/signup', {
     method: 'POST',
     body: JSON.stringify(data),
   });
