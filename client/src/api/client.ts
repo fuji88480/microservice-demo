@@ -1,7 +1,11 @@
-type ApiError = {
+export class ApiError extends Error {
   status: number;
-  message: string;
-};
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+}
 
 type FetchOptions = RequestInit & {
   params?: Record<string, string | number | undefined>;
@@ -36,11 +40,7 @@ export const apiFetch = async <T>(
     let message = 'request failed';
     const data = await res.json();
     message = data?.message ?? message;
-    const error: ApiError = {
-      status: res.status,
-      message,
-    };
-    throw error;
+    throw new ApiError(res.status, message ?? 'Request failed');
   }
 
   return res.json();

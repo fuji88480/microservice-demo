@@ -5,17 +5,16 @@ export type RegisterRequest = {
   password: string;
 };
 
-type RegisterResponse = {
+export type RegisterResponse = {
   id: string;
   email: string;
 };
 
-export const register = (data: RegisterRequest) => {
-  const response = apiFetch<RegisterResponse>('/user/signup', {
+export const register = async (data: RegisterRequest) => {
+  const response = await apiFetch<RegisterResponse>('/user/signup', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 
-  console.log("auth.ts" + response)
   return response;
 };
