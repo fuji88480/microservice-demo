@@ -1,0 +1,25 @@
+■entity
+  ・User
+    usersテーブルと1対1で対応するJavaクラス
+
+■dto
+  ・SignupRequest
+    クライアントからの入力を受け取るクラス(validation強め)
+  ・SigninRequest
+    クライアントからの入力を受け取るクラス(validation弱め)
+
+■repository
+  ・UserRepository
+    UserEntityを永続化・取得する
+
+■security
+  ●service
+    ・UserDetails
+      Spring Security用のユーザー情報ラッパー
+    ・UserDetailsService
+      ユーザー情報を取得する
+  ●jwt
+    ・JwtProperties
+      application.propertiesからjwtに必要な設定値を取得する
+    ・JwtUtils
+  

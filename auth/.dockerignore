@@ -1,0 +1,21 @@
+# build artifacts
+build/
+out/
+
+# gradle
+.gradle/
+
+# git
+.git
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
