@@ -11,14 +11,16 @@ type Message = {
 };
 export default function Signup() {
   const { mutateAsync, isPending } = useRegister();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [message, setMessage] = useState<Message | null>(null);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const fd = new FormData(e.currentTarget);
     try {
-      await mutateAsync({ email, password });
+      await mutateAsync({
+        email: fd.get('email') as string,
+        password: fd.get('password') as string,
+      });
       setMessage({ type: 'success', text: '登録できました' });
     } catch (err) {
       const message =
@@ -63,9 +65,8 @@ export default function Signup() {
             <Input
               id="email"
               type="email"
+              name="email"
               placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -74,9 +75,8 @@ export default function Signup() {
             <Input
               id="password"
               type="password"
+              name="password"
               placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
