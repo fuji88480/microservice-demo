@@ -1,9 +1,21 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@radix-ui/react-label'
-import { Link } from 'react-router-dom'
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useRegister } from '@/hooks/useRegister';
+import { Label } from '@radix-ui/react-label';
+import { useState, type FormEvent } from 'react';
 
 export default function Signup() {
+  const { mutateAsync, isPending } = useRegister();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    const res = await mutateAsync({ email, password });
+
+    console.log('signup' + res);
+  };
+
   return (
     <div className="flex justify-center font-mono">
       <div className="space-y-6 p-10 mt-50 rounded-2xl border">
@@ -14,35 +26,38 @@ export default function Signup() {
           </p>
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <Label htmlFor="email">E-Mail</Label>
             <Input
               id="email"
               type="email"
               placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
-          <div className='mb-10'>
+          <div className="mb-10">
             <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"
               placeholder="********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          <Link to="/auth/signup">
-            <Button
-              variant="destructive"
-              className="w-full bg-pink-700"
-            >
-              新規登録
-            </Button>
-          </Link>
+          <Button
+            disabled={isPending}
+            variant="destructive"
+            className="w-full bg-pink-700"
+          >
+            新規登録
+          </Button>
         </form>
       </div>
     </div>
-  )
+  );
 }

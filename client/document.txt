@@ -37,3 +37,14 @@
 
 ■暇だったら
   1. 画面側での認証について(UX向上のため)
+
+
+vite + ts + react
+prettierrc
+eslint
+tailwindcss + shadcn
+
+react-router
+react-query
+
+json-server
