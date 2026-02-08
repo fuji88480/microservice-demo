@@ -1,7 +1,6 @@
 package com.example.auth.security.jwt;
 
 import java.security.Key;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Optional;
 

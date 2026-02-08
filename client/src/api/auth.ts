@@ -11,10 +11,13 @@ export type RegisterResponse = {
 };
 
 export const register = async (data: RegisterRequest) => {
-  const response = await apiFetch<RegisterResponse>('/users/signup', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  });
+  const response = await apiFetch<RegisterResponse>(
+    '/api/users/signup',
+    {
+      method: 'POST',
+      body: JSON.stringify(data),
+    },
+  );
 
   return response;
 };
