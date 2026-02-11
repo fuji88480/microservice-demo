@@ -24,13 +24,20 @@
     url: /api/users/signout
     body: {}
 
+    method: POST
+    url: /api/users/refresh
+    body: {}
+    response: {
+      accessToken: string,
+      message: string
+    }
+
     method: GET
     url: /api/users/currentuser
     body: {}
     response: {
       email
     }
-    
 
 
 ■ページング
