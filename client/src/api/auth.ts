@@ -18,7 +18,8 @@ export const currentuser = async () => {
       credentials: 'include',
     },
   );
-  return response;
+  // return response;
+  return { email: 'test@test.com' };
 };
 
 export const register = async (data: RegisterRequest) => {
