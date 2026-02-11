@@ -10,11 +10,26 @@ export type RegisterResponse = {
   email: string;
 };
 
+export const currentuser = async () => {
+  const response = await apiFetch<RegisterResponse>(
+    '/api/users/currentuser',
+    {
+      method: 'GET',
+      credentials: 'include',
+    },
+  );
+  return response;
+};
+
 export const register = async (data: RegisterRequest) => {
-  const response = await apiFetch<RegisterResponse>('/users/signup', {
-    method: 'POST',
-    body: JSON.stringify(data),
-  });
+  const response = await apiFetch<RegisterResponse>(
+    '/api/users/signup',
+    {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(data),
+    },
+  );
 
   return response;
 };

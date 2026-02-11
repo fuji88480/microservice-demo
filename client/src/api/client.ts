@@ -43,5 +43,5 @@ export const apiFetch = async <T>(
     throw new ApiError(res.status, message ?? 'Request failed');
   }
 
-  return res.json();
+  return await res.json();
 };

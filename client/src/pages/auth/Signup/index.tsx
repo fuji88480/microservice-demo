@@ -10,14 +10,14 @@ type Message = {
   text: string;
 };
 export default function Signup() {
-  const { mutateAsync, isPending } = useRegister();
+  const { mutate, isPending } = useRegister();
   const [message, setMessage] = useState<Message | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     try {
-      await mutateAsync({
+      mutate({
         email: fd.get('email') as string,
         password: fd.get('password') as string,
       });
