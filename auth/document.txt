@@ -1,25 +1,24 @@
-■entity
-  ・User
-    usersテーブルと1対1で対応するJavaクラス
-
-■dto
-  ・SignupRequest
-    クライアントからの入力を受け取るクラス(validation強め)
-  ・SigninRequest
-    クライアントからの入力を受け取るクラス(validation弱め)
-
-■repository
-  ・UserRepository
-    UserEntityを永続化・取得する
-
-■security
-  ●service
-    ・UserDetails
-      Spring Security用のユーザー情報ラッパー
-    ・UserDetailsService
-      ユーザー情報を取得する
-  ●jwt
-    ・JwtProperties
-      application.propertiesからjwtに必要な設定値を取得する
-    ・JwtUtils
+■全体処理フロー
+  Servlet Container
+  ↓
+  DelegatingFilterProxy(Spring Bootが自動登録)
+  ↓ FilterChainProxyに処理を委譲するだけ(Servlet ContainerとSpringをつなぐ)
+  FilterChainProxy
+  ↓ @EnableWebSecurity
+  ↓   → FilterChainProxyを"springSecurityFilterChain"で登録
+  ↓     今回はspringSecurityFilterChainの中にsecurityFilterChainだけを登録している
+  SecurityFilterChain
+  ↓ フィルタ処理を実行する。今回はsecurityFilterChainのみ実行する
+  ↓ ・今回のカスタムフィルタ(JwtAuthenticationFilter)
+  DispatcherServlet(Spring Bootが自動登録)
+  ↓
+  HandlerMapping
+  ↓ @GetMapping
+  ↓ @PostMapping
+  HandlerAdapter
+  ↓ ArgumentResolver(引数を解決)
+  ↓   @RequestBody
+  ↓     jsonからJavaオブジェクトに変換する
+  Controllerメソッド実行
+    ResponseEntityを返却
   

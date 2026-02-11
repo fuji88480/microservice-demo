@@ -5,20 +5,60 @@
     body: {
       email, password
     }
+    response: {
+      accessToken: string,
+      message: string
+    }
+    ・処理フロー
+      1. bodyにemailとpasswordを設定してapi送信
+      2. apiのレスポンスbodyからaccessTokenを取り出して、変数に格納
+
     
     method: POST
     url: /api/users/signin
     body: {
       email, password
     }
+    response: {
+      accessToken: string,
+      message: string
+    }
+    ・処理フロー
+      1. bodyにemailとpasswordを設定してapi送信
+      2. apiのレスポンスbodyからaccessTokenを取り出して、変数に格納
 
     method: POST
     url: /api/users/signout
     body: {}
+    ・処理フロー
+      1. authヘッダにaccessTokenを設定してapi送信
+      2. 正常な戻り値が返ってきたときに、accessTokenを破棄
+      3. welcomeページに遷移
 
     method: POST
+    url: /api/users/refresh
+    body: {}
+    response: {
+      accessToken: string,
+      message: string
+    }
+    ・使いどころ
+      authヘッダを挿入する必要がある処理で使用する
+    ・使い方
+      認証が必要なapiを送信したとき、accessTokenが無効だった場合、レスポンスbodyのstatusCodeに401が返ってくるので、
+      401だった場合、refreshのapiを実行して、レスポンスbodyからaccessTokenを取得して、変数に格納し、
+      認証が必要なapiを再実行
+
+
+    method: GET
     url: /api/users/currentuser
-    ※どういう風に利用するかまだ決めれてない(一旦後回し)
+    body: {}
+    response: {
+      email
+    }
+    ・処理フロー
+      1. authヘッダにaccessTokenを設定してapi送信
+      2. レスポンスbodyからemail取得
 
 
 ■ページング
