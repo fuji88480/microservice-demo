@@ -5,20 +5,32 @@
     body: {
       email, password
     }
+    response: {
+      accessToken: string,
+      message: string
+    }
     
     method: POST
     url: /api/users/signin
     body: {
       email, password
     }
+    response: {
+      accessToken: string,
+      message: string
+    }
 
     method: POST
     url: /api/users/signout
     body: {}
 
-    method: POST
+    method: GET
     url: /api/users/currentuser
-    ※どういう風に利用するかまだ決めれてない(一旦後回し)
+    body: {}
+    response: {
+      email
+    }
+    
 
 
 ■ページング
