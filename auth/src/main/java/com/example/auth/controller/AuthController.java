@@ -3,6 +3,8 @@ package com.example.auth.controller;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,8 @@ import com.example.auth.dto.request.SigninRequest;
 import com.example.auth.dto.request.SignupRequest;
 import com.example.auth.dto.response.AuthResponse;
 import com.example.auth.dto.response.MessageResponse;
+import com.example.auth.dto.response.UserResponse;
+import com.example.auth.model.User;
 import com.example.auth.security.JwtUtils;
 import com.example.auth.service.AuthService;
 
@@ -190,5 +194,15 @@ public class AuthController {
     return ResponseEntity.ok()
         .header(HttpHeaders.SET_COOKIE, newRefreshCookie.toString())
         .body(new AuthResponse(result.accessToken(), "token refreshed"));
+  }
+
+  @GetMapping("/currentuser")
+  public ResponseEntity<?> currentuser(HttpServletRequest request) {
+    // SecurityContextから認証済みuserIdを取得
+    Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    User user = authService.getCurrentUser(userId);
+
+    return ResponseEntity.ok(new UserResponse(user.getEmail()));
   }
 }

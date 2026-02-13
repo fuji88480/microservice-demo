@@ -110,7 +110,7 @@ public class WebSecurityConfig {
             // /api/tickets/show(購入可能チケット一覧取得)は認証不要
             // .requestMatchers("/api/tickets/show").permitAll()
             // /api/users, /api/tickets, /api/orders, /api/paymentsは認証要
-            .requestMatchers("/api/users", "/api/tickets", "/api/orders", "/api/payments").authenticated()
+            .requestMatchers("/api/users/**", "/api/tickets/**", "/api/orders/**", "/api/payments/**").authenticated()
             .anyRequest().denyAll());
 
     // JwtAuthenticationFilterをUsernamePasswordAuthenticationFilterの前に配置。
