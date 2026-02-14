@@ -174,6 +174,11 @@ public class AuthService {
     return new AuthResult(newAccessToken, newRefreshToken);
   }
 
+  public User getCurrentUser(Long userId) {
+    return userRepository.findById(userId)
+        .orElseThrow(() -> new UserNotFoundException(userId));
+  }
+
   /**
    * メールアドレス重複時にスローされる例外。
    *
@@ -199,6 +204,12 @@ public class AuthService {
   public static class InvalidRefreshTokenException extends RuntimeException {
     public InvalidRefreshTokenException() {
       super("無効なリフレッシュトークンです");
+    }
+  }
+
+  public static class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(Long userId) {
+      super("ユーザーが見つかりません" + userId);
     }
   }
 }

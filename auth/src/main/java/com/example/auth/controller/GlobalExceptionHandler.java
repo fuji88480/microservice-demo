@@ -27,7 +27,8 @@ import com.example.auth.service.AuthService;
  * ハンドリング対象：
  * </p>
  * <ul>
- * <li>{@link MethodArgumentNotValidException} - 400 Bad Request（バリデーションエラー）</li>
+ * <li>{@link MethodArgumentNotValidException} - 400 Bad
+ * Request（バリデーションエラー）</li>
  * <li>{@link AuthService.DuplicateEmailException} - 400 Bad Request</li>
  * <li>{@link AuthService.InvalidRefreshTokenException} - 401 Unauthorized</li>
  * <li>{@link Exception} - 500 Internal Server Error（DB障害等の予期しないエラー）</li>
@@ -104,5 +105,11 @@ public class GlobalExceptionHandler {
     logger.error("予期しないエラーが発生しました", e);
     return ResponseEntity.status(500)
         .body(new MessageResponse("サーバー内部エラーが発生しました", 500));
+  }
+
+  @ExceptionHandler(AuthService.UserNotFoundException.class)
+  public ResponseEntity<MessageResponse> handleUserNotFound(AuthService.UserNotFoundException e) {
+    return ResponseEntity.status(404)
+        .body(new MessageResponse("ユーザーが見つかりません", 404));
   }
 }
