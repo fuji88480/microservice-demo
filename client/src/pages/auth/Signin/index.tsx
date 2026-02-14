@@ -1,9 +1,35 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@radix-ui/react-label'
-import { Link } from 'react-router-dom'
+import { AuthContext } from '@/auth/auth-context';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useSignin } from '@/hooks/useSignin';
+import { Label } from '@radix-ui/react-label';
+import { useContext, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Signin() {
+  const { mutate } = useSignin();
+  const navigate = useNavigate();
+  const { refresh } = useContext(AuthContext);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+
+    mutate(
+      {
+        email: fd.get('email') as string,
+        password: fd.get('password') as string,
+      },
+      {
+        onSuccess: () => {
+          refresh?.();
+          setTimeout(() => {
+            navigate('/');
+          }, 500);
+        },
+      },
+    );
+  };
   return (
     <div className="flex justify-center font-mono">
       <div className="space-y-6 p-10 mt-50 rounded-2xl border">
@@ -14,12 +40,13 @@ export default function Signin() {
           </p>
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <Label htmlFor="email">E-Mail</Label>
             <Input
               id="email"
               type="email"
+              name="email"
               placeholder="you@example.com"
             />
           </div>
@@ -29,6 +56,7 @@ export default function Signin() {
             <Input
               id="password"
               type="password"
+              name="password"
               placeholder="********"
             />
           </div>
@@ -48,5 +76,5 @@ export default function Signin() {
         </form>
       </div>
     </div>
-  )
+  );
 }

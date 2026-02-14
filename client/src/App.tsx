@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from '@/pages/Home'
 import Signup from '@/pages/auth/Signup'
 import Signin from '@/pages/auth/Signin'
-import MainLayout from './layouts/MainLayout'
+import MainLayout from './pages/MainLayout'
 
 function App() {
   return (

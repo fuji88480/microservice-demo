@@ -1,32 +1,47 @@
 import { ApiError } from '@/api/client';
+import { AuthContext } from '@/auth/auth-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useRegister } from '@/hooks/useRegister';
+import { useSignup } from '@/hooks/useSignup';
 import { Label } from '@radix-ui/react-label';
-import { useState, type FormEvent } from 'react';
+import { useContext, useState, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type Message = {
   type: 'success' | 'error';
   text: string;
 };
 export default function Signup() {
-  const { mutate, isPending } = useRegister();
+  const { refresh } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { mutate, isPending } = useSignup();
   const [message, setMessage] = useState<Message | null>(null);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    try {
-      mutate({
+    mutate(
+      {
         email: fd.get('email') as string,
         password: fd.get('password') as string,
-      });
-      setMessage({ type: 'success', text: '登録できました' });
-    } catch (err) {
-      const message =
-        err instanceof ApiError ? err.message : '登録に失敗しました';
-      setMessage({ type: 'error', text: message });
-    }
+      },
+      {
+        onSuccess() {
+          setMessage({ type: 'success', text: '登録できました' });
+          refresh?.();
+          setTimeout(() => {
+            navigate('/');
+          }, 2000);
+        },
+        onError(error) {
+          const message =
+            error instanceof ApiError
+              ? error.message
+              : '登録に失敗しました';
+          setMessage({ type: 'error', text: message });
+        },
+      },
+    );
   };
 
   return (

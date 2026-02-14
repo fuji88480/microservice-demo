@@ -1,7 +1,11 @@
-import { Link } from 'react-router-dom'
-import { Button } from '../ui/button'
+import { Link } from 'react-router-dom';
+import { Button } from '../ui/button';
+import { useContext } from 'react';
+import { AuthContext } from '@/auth/auth-context';
 
 export default function Header() {
+  const { user, isLoading } = useContext(AuthContext);
+
   return (
     <div className="bg-white border-b">
       <div className="h-14 flex items-center justify-between px-6 sm:px-8">
@@ -12,29 +16,20 @@ export default function Header() {
           </Link>
         </div>
 
-        <div className="flex gap-4 font-mono">
-          <Link to="/auth/signin">
-            <Button size="sm" variant="outline">ログイン／新規登録</Button>
-          </Link>
+        <div className="gap-4 font-mono">
+          {isLoading && <span className="text-sm">Loading...</span>}
 
-          {/* <div>
-            <Link
-              to="/auth/signup"
-              className="flex items-center gap-2"
-            >
-              <span className="">ORDERS</span>
+          {!isLoading && !user && (
+            <Link to="/auth/signin">
+              <Button size="sm" variant="outline">
+                ログイン／新規登録
+              </Button>
             </Link>
-          </div>
-          <div>
-            <Link
-              to="/auth/signup"
-              className="flex items-center gap-2"
-            >
-              <span className="">LOGOUT</span>
-            </Link>
-          </div> */}
+          )}
+
+          {!isLoading && user && <span>{user?.email}</span>}
         </div>
       </div>
     </div>
-  )
+  );
 }
