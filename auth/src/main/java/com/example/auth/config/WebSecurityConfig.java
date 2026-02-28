@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.example.auth.security.AuthEntryPointJwt;
 import com.example.auth.security.JwtAuthenticationFilter;
 
+import lombok.RequiredArgsConstructor;
+
 /**
  * Spring Securityの設定クラス。
  *
@@ -29,8 +31,8 @@ import com.example.auth.security.JwtAuthenticationFilter;
  * <ul>
  * <li>{@code @Configuration} - Spring Bean定義クラスとしてマーク</li>
  * <li>{@code @EnableWebSecurity} - Spring Security のWebセキュリティ機能を有効化</li>
- * <li>{@code @EnableMethodSecurity} - {@code @PreAuthorize}
- * 等のメソッドレベルセキュリティを有効化</li>
+ * <li>{@code @RequiredArgsConstructor} は
+ * Lombokアノテーションで、finalフィールド（userRepository）のみを引数に持つコンストラクタを自動生成</li>
  * </ul>
  *
  * @see JwtAuthenticationFilter リクエスト毎のJWT検証フィルター
@@ -38,14 +40,10 @@ import com.example.auth.security.JwtAuthenticationFilter;
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
   private final AuthEntryPointJwt authEntryPointJwt;
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-  public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, AuthEntryPointJwt authEntryPointJwt) {
-    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-    this.authEntryPointJwt = authEntryPointJwt;
-  }
 
   /**
    * AuthenticationManagerをBean登録する。
@@ -105,8 +103,9 @@ public class WebSecurityConfig {
         .exceptionHandling(exeption -> exeption.authenticationEntryPoint(authEntryPointJwt))
         // 認可ルール
         .authorizeHttpRequests(auth -> auth
-            // /api/users/signup(サインアップ), /api/users/signin(サインイン)は認証不要
-            .requestMatchers("/api/users/signup", "/api/users/signin").permitAll()
+            // /api/users/signup(サインアップ), /api/users/signin(サインイン),
+            // /api/users/refresh(リフレッシュ)は認証不要
+            .requestMatchers("/api/users/signup", "/api/users/signin", "/api/users/refresh").permitAll()
             // /api/tickets/show(購入可能チケット一覧取得)は認証不要
             // .requestMatchers("/api/tickets/show").permitAll()
             // /api/users, /api/tickets, /api/orders, /api/paymentsは認証要
