@@ -42,19 +42,27 @@ export const signinApi = async (data: {
   return response;
 };
 
-export const currentuser = async () => {
-  // const response = await apiFetch<RegisterResponse>(
-  //   '/api/users/currentuser',
-  //   {
-  //     method: 'GET',
-  //     credentials: 'include',
-  //   },
-  // );
-  // return response;
-  console.log('currentuser');
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  if (getAccessToken()) {
-    return { email: 'test@ttt.com' };
-  }
-  return { email: null };
+export type CurrentuserResponse = {
+  email: string;
+};
+export const currentuserApi = async () => {
+  const response = await apiFetch<CurrentuserResponse>(
+    '/api/users/currentuser',
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+      credentials: 'include',
+    },
+  );
+  return response;
+};
+
+export const refreshApi = async () => {
+  const response = await apiFetch<SigninResponse>('/api/users/refresh', {
+    method: 'POST',
+    credentials: 'include',
+  });
+  setAccessToken(response.accessToken);
 };
